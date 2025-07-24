@@ -1,37 +1,34 @@
+
+from db import criar_tabelas
+from comandos import *
+
+criar_tabelas()
+
 import os
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# Configurar logs
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+token = os.getenv("BOT_TOKEN", "INSIRA_SEU_TOKEN_AQUI")
 
-# Comando de início
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Olá! Sou seu assistente pessoal. Digite /ajuda para ver os comandos disponíveis.")
-
-# Comando de ajuda
-async def ajuda(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    comandos = [
-        "/start - Iniciar o assistente",
-        "/ajuda - Ver comandos disponíveis",
-        "/planejamento_semanal - Iniciar planejamento semanal",
-        "/registrar_sono - Registrar horário de dormir/acordar",
-        "/registrar_compra - Registrar compra",
-        "/registrar_tarefa - Registrar nova tarefa"
-    ]
-    await update.message.reply_text("\n".join(comandos))
+logging.basicConfig(level=logging.INFO)
 
 def main():
-    token = os.getenv("BOT_TOKEN")
-    if not token:
-        raise ValueError("Token do bot não definido. Defina a variável BOT_TOKEN.")
-    
     app = ApplicationBuilder().token(token).build()
 
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("ajuda", ajuda))
-    
+    app.add_handler(CommandHandler("tarefas", listar_tarefas))
+    app.add_handler(CommandHandler("add_tarefa", adicionar_tarefa))
+    app.add_handler(CommandHandler("despesas", listar_despesas))
+    app.add_handler(CommandHandler("add_despesa", adicionar_despesa))
+    app.add_handler(CommandHandler("sono", listar_sono))
+    app.add_handler(CommandHandler("dormir", registrar_dormir))
+    app.add_handler(CommandHandler("acordar", registrar_acordar))
+    app.add_handler(CommandHandler("compras", listar_compras))
+    app.add_handler(CommandHandler("add_compra", adicionar_compra))
+    app.add_handler(CommandHandler("comprar", marcar_comprado))
+    app.add_handler(CommandHandler("limpar_compras", limpar_compras))
+
     print("Assistente pessoal iniciado...")
     app.run_polling()
 

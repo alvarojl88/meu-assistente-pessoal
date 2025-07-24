@@ -1,15 +1,35 @@
-# Assistente Pessoal Telegram Bot
+# 🤖 Meu Assistente Pessoal no Telegram
 
-Este é um assistente pessoal desenvolvido em Python que roda no Telegram. Ele permite planejamento semanal, controle de sono, tarefas e compras.
+Um assistente pessoal automatizado, rodando no Telegram, que te ajuda a organizar tarefas, controlar despesas, registrar sono e gerenciar sua lista de compras — tudo via comandos simples.
 
-## Como usar
+---
 
-1. Crie um bot no Telegram usando o [@BotFather](https://t.me/BotFather) e copie o token.
-2. Defina a variável de ambiente `BOT_TOKEN` com o token (você pode criar um arquivo `.env` com a linha `BOT_TOKEN=SEU_TOKEN_AQUI`).
-3. Instale as dependências com:
+## 🚀 Funcionalidades
 
+- ✅ **Tarefas**
+  - Adicionar tarefas
+  - Listar tarefas pendentes
+
+- 💰 **Despesas**
+  - Registrar valor e descrição
+  - Listar últimas despesas
+
+- 💤 **Sono**
+  - Registrar horário de dormir e acordar
+  - Ver resumo dos registros
+
+- 🛒 **Lista de Compras**
+  - Adicionar itens
+  - Listar itens
+  - Marcar como comprado
+  - Remover item
+  - Limpar lista
+
+---
+
+## ▶️ Como usar
+
+1. **Clone o repositório**
    ```bash
-   pip install -r requirements.txt
-
-
-
+   git clone https://github.com/alvarojl88/meu-assistente-pessoal.git
+   cd meu-assistente-pessoal
