@@ -1,4 +1,3 @@
-
 import sqlite3
 
 def conectar():
@@ -14,7 +13,6 @@ def criar_tabelas():
         descricao TEXT,
         data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )""")
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS despesas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +20,6 @@ def criar_tabelas():
         descricao TEXT,
         data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )""")
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS compras (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,13 +27,11 @@ def criar_tabelas():
         comprado BOOLEAN DEFAULT 0,
         data_adicionado TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )""")
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS sono (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dormir TIMESTAMP,
         acordar TIMESTAMP
     )""")
-
     con.commit()
     con.close()
