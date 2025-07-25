@@ -1,5 +1,4 @@
 from telegram.ext import CommandHandler, ContextTypes
-from telegram import Update
 from comandos_tarefas import *
 from comandos_despesas import *
 from comandos_compras import *

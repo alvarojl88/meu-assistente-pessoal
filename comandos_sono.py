@@ -1,4 +1,3 @@
-from telegram import Update
 from telegram.ext import ContextTypes
 from db import conectar
 from datetime import datetime
