@@ -1,5 +1,0 @@
-build:
-  # Garante que o pip use o requirements.txt, não poetry
-  command: pip install -r requirements.txt
-start:
-  command: python main.py
