@@ -1,4 +1,4 @@
-from telegram import ContextTypes
+from telegram.ext import ContextTypes
 from db import conectar
 
 async def add_despesa(update: Update, context: ContextTypes.DEFAULT_TYPE):

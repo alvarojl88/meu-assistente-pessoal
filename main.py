@@ -1,53 +1,32 @@
-import logging
 import os
-
+from dotenv import load_dotenv
+from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from comandos_tarefas import add_tarefa, listar_tarefas
+# importe os outros comandos aqui
 
-from comandos import start
-from comandos_compras import *
-from comandos_despesas import *
-from comandos_sono import *
-from comandos_tarefas import *
+load_dotenv()
+TOKEN = os.getenv("TELEGRAM_TOKEN")
+PORT = int(os.environ.get('PORT', '8080'))
 
-from db import criar_tabelas
+app = ApplicationBuilder().token(TOKEN).build()
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+# registre seus handlers
+app.add_handler(CommandHandler("add_tarefa", add_tarefa))
+app.add_handler(CommandHandler("listar_tarefas", listar_tarefas))
+# adicione os demais comandos aqui
 
-async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(f'Olá {update.effective_user.first_name}!')
+# webhook (obrigatório para Render)
+async def start_webhook():
+    await app.initialize()
+    await app.start()
+    await app.updater.start_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=TOKEN,
+        webhook_url=f"https://{os.environ['RENDER_EXTERNAL_HOSTNAME']}/{TOKEN}",
+    )
 
-def main():
-    criar_tabelas()
+import asyncio
+asyncio.run(start_webhook())
 
-    token = os.getenv("TELEGRAM_TOKEN")
-    if not token:
-        raise RuntimeError("Variável de ambiente TELEGRAM_TOKEN não definida")
-
-    app = ApplicationBuilder().token(token).build()
-
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("hello", hello))
-
-    app.add_handler(CommandHandler("compras_adicionar", compras_adicionar))
-    app.add_handler(CommandHandler("compras_listar", compras_listar))
-    app.add_handler(CommandHandler("compras_marcar", compras_marcar))
-    app.add_handler(CommandHandler("compras_remover", compras_remover))
-    app.add_handler(CommandHandler("compras_limpar", compras_limpar))
-
-    app.add_handler(CommandHandler("despesa_adicionar", despesa_adicionar))
-    app.add_handler(CommandHandler("despesa_listar", despesa_listar))
-
-    app.add_handler(CommandHandler("sono_registrar", sono_registrar))
-    app.add_handler(CommandHandler("sono_listar", sono_listar))
-
-    app.add_handler(CommandHandler("tarefa_adicionar", tarefa_adicionar))
-    app.add_handler(CommandHandler("tarefa_listar", tarefa_listar))
-
-    print("Assistente pessoal iniciado...")
-    app.run_polling()
-
-if __name__ == '__main__':
-    main()
